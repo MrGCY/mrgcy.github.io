@@ -3,7 +3,7 @@ layout: post
 title: "iOS 视图圆角（任意角任意大小）"
 date: 2018-06-28 10:31:11 +0800
 comments: true
-categories: 2
+categories: 1
 ---
 最近要做一个新项目，产品需求刚过完，UI的效果图也就随之而出了，拿到效果图之后，看到首页就让我大吃一惊了，因为里面出现好多不同大小和个数的圆角，这让我着实头疼，大家可以看看UI效果图。
 ![首页.png](https://upload-images.jianshu.io/upload_images/2517741-eae4775b66c8b8e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
