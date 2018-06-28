@@ -9,7 +9,7 @@
 	<meta name="author" content="Mr.GCY">
 
 	
-	<meta name="description" content="iOS 视图圆角（任意角任意大小） 最近要做一个新项目，产品需求刚过完，UI的效果图也就随之而出了，拿到效果图之后，看到首页就让我大吃一惊了，因为里面出现好多不同大小和个数的圆角，这让我着实头疼，大家可以看看UI效果图。 可以看到页面确实很炫，但是实现也比较费劲。 之前圆角方案 1. &hellip;">
+	<meta name="description" content="iOS-第三方登录和分享总结(微信篇) 对于第三方登录和分享,当我们做熟了就会发现三种登录和分享的方式都是大同小异,流程基本上也一样,只要我们掌握其中的一种,其他的只需要看看文档就会很快做完,下面我们就先介绍微信. 一 微信 1.1微信登录 具体iOS微信集成指南点击查看iOS指南 1.1.1 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="Mr.GCY技术博客" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://yoursite.com/">
+	<link rel="canonical" href="http://mrgcy.github.io/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -96,6 +96,694 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-06-28T14:44:47+08:00" data-updated="true" itemprop="datePublished"></time></div>
+		<div class="tags">
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2018/06/28/ios-di-san-fang-deng-lu-he-fen-xiang-zong-jie-wei-xin-pian/" itemprop="url">iOS-第三方登录和分享总结(微信篇)</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>对于第三方登录和分享,当我们做熟了就会发现三种登录和分享的方式都是大同小异,流程基本上也一样,只要我们掌握其中的一种,其他的只需要看看文档就会很快做完,下面我们就先介绍微信.</p>
+
+<h3>一 微信</h3>
+
+<h4>1.1微信登录</h4>
+
+<p>具体iOS微信集成指南<a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417694084&amp;token=221ba501dec7869e36e52e0a34b1b6fde58fe54c&amp;lang=zh_CN">点击查看iOS指南</a></p>
+
+<h6>1.1.1 申请账号</h6>
+
+<p>向微信的开放平台申请开发账号<a href="https://open.weixin.qq.com/cgi-bin/index?t=home/index&amp;lang=zh_CN&amp;token=221ba501dec7869e36e52e0a34b1b6fde58fe54c">点击打开连接申请</a></p>
+
+<h6>1.1.2下载微信SDK</h6>
+
+<p>SDK文件包括 libWeChatSDK.a，WXApi.h，WXApiObject.h 三个。
+如选用手动集成，请前往<a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319164&amp;lang=zh_CN" title="iOS资源下载">资源下载页</a>下载最新SDK包
+<img src="http://upload-images.jianshu.io/upload_images/2517741-add1a5e8c3df536e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="sdk文件预览.png" /></p>
+
+<h6>1.1.3环境搭建</h6>
+
+<p>1.新建工程,将sdk全部拖进去.
+<img src="http://upload-images.jianshu.io/upload_images/2517741-84ac3409bfeaec9b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="工程导入" />
+2.微信开放平台新增了微信模块用户统计功能，便于开发者统计微信功能模块的用户使用和活跃情况。开发者需要在工程中链接上:SystemConfiguration.framework, libz.dylib, libsqlite3.0.dylib, libc++.dylib, Security.framework, CoreTelephony.framework, CFNetwork.framework。
+3.在你的工程文件中选择Build Setting，在"Other Linker Flags"中加入"-Objc -all_load"，在Search Paths中添加 libWeChatSDK.a ，WXApi.h，WXApiObject.h
+<img src="http://upload-images.jianshu.io/upload_images/2517741-ca4798793fd79faa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="QQ20180110-143356.png" />
+4.在Xcode中，选择你的工程设置项，选中“TARGETS”一栏，在“info”标签栏的“URL type“添加“URL scheme”为你所注册的应用程序id
+<img src="http://upload-images.jianshu.io/upload_images/2517741-74262aa89bea9874.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="QQ20180110-143650.png" />
+5.在Xcode中，选择你的工程设置项，选中“TARGETS”一栏，在“info”标签栏的“LSApplicationQueriesSchemes“添加微信的白名单,主要是为了手机端进行登录可以直接进入微信客户端中
+<img src="http://upload-images.jianshu.io/upload_images/2517741-7b665d76c787c4f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="QQ20180110-143954.png" />
+这块我把所有需要添加的白名单都添加了,基本上是比较全的,项目中有需要用的的可以直接复制进去</p>
+
+<h6>1.1.3代码实现</h6>
+
+<p>这里的代码可能跟微信官方下载下来的demo中的代码位置有区别,是因为我这边做了一些小的封装,但调用的方法没有变(我这边只把实现的流程展示出来,具体代码可以参考我的demo或者官方demo)
+1.要使你的程序启动后微信终端能响应你的程序，必须在代码中向微信终端注册你的id,在AppDelegate的- (BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions中注册微信
+需要导头文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import "WXApi.h"
+</span><span class='line'>#import "WXApiObject.h"</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//向微信注册
+</span><span class='line'>-(BOOL)WXRegister{
+</span><span class='line'>return [WXApi registerApp:KWXAPPID];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.重写AppDelegate的handleOpenURL和openURL方法(后面写的QQ,和微博一样的处理)：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (BOOL)applicationOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+</span><span class='line'>if ([KTencentSchema isEqualToString:[url scheme]]) {
+</span><span class='line'>//QQ
+</span><span class='line'>return [TencentOAuth HandleOpenURL:url];
+</span><span class='line'>
+</span><span class='line'>}else if ([KTencentURLSchema isEqualToString:[url scheme]]) {
+</span><span class='line'>//QQ
+</span><span class='line'>return [QQApiInterface handleOpenURL:url delegate:self.qqUtils];
+</span><span class='line'>
+</span><span class='line'>}else if ([KWXURLSchema isEqualToString:[url scheme]]) {
+</span><span class='line'>//微信
+</span><span class='line'>return [WXApi handleOpenURL:url delegate:self.wxUtils];
+</span><span class='line'>
+</span><span class='line'>}else if ([KWBURLSchema isEqualToString:[url scheme]]){
+</span><span class='line'>//微博
+</span><span class='line'>return [WeiboSDK handleOpenURL:url delegate:self.wbUtils];
+</span><span class='line'>}
+</span><span class='line'>return NO;
+</span><span class='line'>}
+</span><span class='line'>- (BOOL)applicationHandleOpenURL:(NSURL *)url {
+</span><span class='line'>
+</span><span class='line'>if ([KTencentSchema isEqualToString:[url scheme]]) {
+</span><span class='line'>//QQ
+</span><span class='line'>return [TencentOAuth HandleOpenURL:url];
+</span><span class='line'>
+</span><span class='line'>}else if ([KTencentURLSchema isEqualToString:[url scheme]]) {
+</span><span class='line'>//QQ
+</span><span class='line'>return [QQApiInterface handleOpenURL:url delegate:self.qqUtils];
+</span><span class='line'>
+</span><span class='line'>}else if ([KWXURLSchema isEqualToString:[url scheme]]) {
+</span><span class='line'>//微信
+</span><span class='line'>return [WXApi handleOpenURL:url delegate:self.wxUtils];
+</span><span class='line'>
+</span><span class='line'>}else if ([KWBURLSchema isEqualToString:[url scheme]]){
+</span><span class='line'>//微博
+</span><span class='line'>return [WeiboSDK handleOpenURL:url delegate:self.wbUtils];
+</span><span class='line'>}
+</span><span class='line'>return NO;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.你的程序要实现和微信终端交互的具体请求与回应，因此需要实现WXApiDelegate协议的两个方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#pragma mark- WXApiDelegate
+</span><span class='line'>/*! @brief 收到一个来自微信的请求，第三方应用程序处理完后调用sendResp向微信发送结果
+</span><span class='line'>*
+</span><span class='line'>* 收到一个来自微信的请求，异步处理完成后必须调用sendResp发送处理结果给微信。
+</span><span class='line'>* 可能收到的请求有GetMessageFromWXReq、ShowMessageFromWXReq等。
+</span><span class='line'>* @param req 具体请求内容，是自动释放的
+</span><span class='line'>*/
+</span><span class='line'>-(void) onReq:(BaseReq*)req{
+</span><span class='line'>if ([req isKindOfClass:[GetMessageFromWXReq class]]) {
+</span><span class='line'>//微信终端向第三方程序请求提供内容的消息结构体
+</span><span class='line'>if (self.wxDelegate
+</span><span class='line'>&& [self.wxDelegate respondsToSelector:@selector(WXApiUtilsDidRecvGetMessageReq:)]) {
+</span><span class='line'>GetMessageFromWXReq *getMessageReq = (GetMessageFromWXReq *)req;
+</span><span class='line'>[self.wxDelegate WXApiUtilsDidRecvGetMessageReq:getMessageReq];
+</span><span class='line'>}
+</span><span class='line'>} else if ([req isKindOfClass:[ShowMessageFromWXReq class]]) {
+</span><span class='line'>//微信通知第三方程序，要求第三方程序显示的消息结构体
+</span><span class='line'>if (self.wxDelegate
+</span><span class='line'>&& [self.wxDelegate respondsToSelector:@selector(WXApiUtilsDidRecvShowMessageReq:)]) {
+</span><span class='line'>ShowMessageFromWXReq *showMessageReq = (ShowMessageFromWXReq *)req;
+</span><span class='line'>[self.wxDelegate WXApiUtilsDidRecvShowMessageReq:showMessageReq];
+</span><span class='line'>}
+</span><span class='line'>} else if ([req isKindOfClass:[LaunchFromWXReq class]]) {
+</span><span class='line'>//微信终端打开第三方程序携带的消息结构体
+</span><span class='line'>if (self.wxDelegate
+</span><span class='line'>&& [self.wxDelegate respondsToSelector:@selector(WXApiUtilsDidRecvLaunchFromWXReq:)]) {
+</span><span class='line'>LaunchFromWXReq *launchReq = (LaunchFromWXReq *)req;
+</span><span class='line'>[self.wxDelegate WXApiUtilsDidRecvLaunchFromWXReq:launchReq];
+</span><span class='line'>}
+</span><span class='line'>}
+</span><span class='line'>}
+</span><span class='line'>/*! @brief 发送一个sendReq后，收到微信的回应
+</span><span class='line'>*
+</span><span class='line'>* 收到一个来自微信的处理结果。调用一次sendReq后会收到onResp。
+</span><span class='line'>* 可能收到的处理结果有SendMessageToWXResp、SendAuthResp等。
+</span><span class='line'>* @param resp具体的回应内容，是自动释放的
+</span><span class='line'>*/
+</span><span class='line'>-(void) onResp:(BaseResp*)resp{
+</span><span class='line'>if ([resp isKindOfClass: [PayResp class]]){
+</span><span class='line'>//支付结果
+</span><span class='line'>if (self.wxDelegate
+</span><span class='line'>&& [self.wxDelegate respondsToSelector:@selector(WXApiUtilsDidRecvPayResponse:)]) {
+</span><span class='line'>PayResp *payResp = (PayResp *)resp;
+</span><span class='line'>[self.wxDelegate WXApiUtilsDidRecvPayResponse:payResp];
+</span><span class='line'>}
+</span><span class='line'>}else if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+</span><span class='line'>//第三方程序向微信终端发送SendMessageToWXReq后，微信发送回来的处理结果，该结果用SendMessageToWXResp表示。
+</span><span class='line'>if (self.wxDelegate
+</span><span class='line'>&& [self.wxDelegate respondsToSelector:@selector(WXApiUtilsDidRecvMessageResponse:)]) {
+</span><span class='line'>SendMessageToWXResp *messageResp = (SendMessageToWXResp *)resp;
+</span><span class='line'>[self.wxDelegate WXApiUtilsDidRecvMessageResponse:messageResp];
+</span><span class='line'>}
+</span><span class='line'>} else if ([resp isKindOfClass:[SendAuthResp class]]) {
+</span><span class='line'>//微信处理完第三方程序的认证和权限申请后向第三方程序回送的处理结果
+</span><span class='line'>if (self.wxDelegate
+</span><span class='line'>&& [self.wxDelegate respondsToSelector:@selector(WXApiUtilsDidRecvAuthResponse:)]) {
+</span><span class='line'>SendAuthResp *authResp = (SendAuthResp *)resp;
+</span><span class='line'>[self.wxDelegate WXApiUtilsDidRecvAuthResponse:authResp];
+</span><span class='line'>}
+</span><span class='line'>} else if ([resp isKindOfClass:[AddCardToWXCardPackageResp class]]) {
+</span><span class='line'>//微信返回第三方添加卡券结果
+</span><span class='line'>if (self.wxDelegate
+</span><span class='line'>&& [self.wxDelegate respondsToSelector:@selector(WXApiUtilsDidRecvAddCardResponse:)]) {
+</span><span class='line'>AddCardToWXCardPackageResp *addCardResp = (AddCardToWXCardPackageResp *)resp;
+</span><span class='line'>[self.wxDelegate WXApiUtilsDidRecvAddCardResponse:addCardResp];
+</span><span class='line'>}
+</span><span class='line'>}
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.具体登录调用
+在登录之前我们可以判断用户是否安装微信客户端</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//是否安装微信
+</span><span class='line'>- (BOOL)isWXAppInstalled
+</span><span class='line'>{
+</span><span class='line'>return [WXApi isWXAppInstalled];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后再调用登录方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//登录方法
+</span><span class='line'>- (void)WXOauthLogin
+</span><span class='line'>{
+</span><span class='line'>SendAuthReq* req = [[SendAuthReq alloc] init];
+</span><span class='line'>req.scope = @"snsapi_userinfo,snsapi_base";
+</span><span class='line'>req.state = @"0744" ;
+</span><span class='line'>[WXApi sendReq:req];
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>登录成功会在-(void) onResp:(BaseResp*)resp方法中回调成功结果,可以获取登录用户的信息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'>* 登录成功获取用户个人信息回调
+</span><span class='line'>*/
+</span><span class='line'>- (void)QQApiUtilsGetUserInfoResponse:(APIResponse*) response tencentOAuth:(TencentOAuth *)tencentOAut{
+</span><span class='line'>//获取到QQ的用户信息
+</span><span class='line'>NSLog(@"===%@",response.jsonResponse);
+</span><span class='line'>NSInteger gender = 0;
+</span><span class='line'>if ([response.jsonResponse[@"gender"] isEqualToString:@"男"]){
+</span><span class='line'>gender = 1;
+</span><span class='line'>}
+</span><span class='line'>NSMutableDictionary * params = [NSMutableDictionary dictionary];
+</span><span class='line'>[params setValue:tencentOAut.openId forKey:@"openid"];//openid【必须】
+</span><span class='line'>[params setValue:[response.jsonResponse objectForKey:@"nickname"] forKey:@"nickName"];//QQ昵称【必须】
+</span><span class='line'>[params setValue:[response.jsonResponse objectForKey:@"figureurl_qq_2"] forKey:@"avatar"];//头像【必须】
+</span><span class='line'>[params setValue:gender == 1 ? @"男":@"女" forKey:@"sex"];//性别【必须】
+</span><span class='line'>//登录成功回调
+</span><span class='line'>#warning 需要开发调用自己的登录接口
+</span><span class='line'>[self loginSuccess:params];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>获取到用户信息之后,我们可以根据自己公司的业务做后续处理</p>
+
+<h4>1.2微信分享(好友分享,朋友圈分享)</h4>
+
+<p>分享操作指南官方也有对应的知道文档<a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317332&amp;token=221ba501dec7869e36e52e0a34b1b6fde58fe54c&amp;lang=zh_CN">微信分享操作指南</a>
+微信分享目前支持文字、图片、音乐、视频、网页共五种类型,这块我主要写了四种类型,基本上都一样只是中间调用的类不一样
+分享的场景有两种</p>
+
+<blockquote><p>发送到聊天界面——WXSceneSession
+发送到朋友圈——WXSceneTimeline</p>
+
+<h6>1.2.1分享的几种方式</h6>
+
+<p>1.网页</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//网页类型分享
+</span><span class='line'>- (BOOL)sharedLinkToWeChat:(NSString *)title
+</span><span class='line'>description:(NSString *)description
+</span><span class='line'>detailUrl:(NSString *)detailUrl
+</span><span class='line'>image:(UIImage *)image
+</span><span class='line'>shareType:(WXShareSceneType)sharedType
+</span><span class='line'>{
+</span><span class='line'>UIImage *compressedImage = [image imageWithFileSize:32*1024 scaledToSize:CGSizeMake(300, 300)];
+</span><span class='line'>
+</span><span class='line'>WXMediaMessage *message = [WXMediaMessage message];
+</span><span class='line'>
+</span><span class='line'>message.title = title;
+</span><span class='line'>
+</span><span class='line'>message.description = description;
+</span><span class='line'>
+</span><span class='line'>[message setThumbImage:compressedImage];
+</span><span class='line'>
+</span><span class='line'>WXWebpageObject *webpageObject = [WXWebpageObject object];
+</span><span class='line'>
+</span><span class='line'>webpageObject.webpageUrl = detailUrl;
+</span><span class='line'>
+</span><span class='line'>message.mediaObject = webpageObject;
+</span><span class='line'>
+</span><span class='line'>SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+</span><span class='line'>
+</span><span class='line'>req.bText= NO;
+</span><span class='line'>
+</span><span class='line'>req.message = message;
+</span><span class='line'>
+</span><span class='line'>req.scene = (sharedType == WXShareSceneTypeTimeline? WXSceneTimeline:WXSceneSession);
+</span><span class='line'>BOOL success = [WXApi sendReq:req];
+</span><span class='line'>return success;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.图片</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//分享图片
+</span><span class='line'>-(BOOL)shareImageToWeChat:(UIImage *)image
+</span><span class='line'>shareType:(WXShareSceneType)sharedType{
+</span><span class='line'>
+</span><span class='line'>UIImage *compressedImage = [image imageWithFileSize:32*1024 scaledToSize:CGSizeMake(300, 300)];
+</span><span class='line'>WXMediaMessage *message = [WXMediaMessage message];
+</span><span class='line'>[message setThumbImage:compressedImage];
+</span><span class='line'>
+</span><span class='line'>WXImageObject *ext = [WXImageObject object];
+</span><span class='line'>ext.imageData = UIImagePNGRepresentation(image);
+</span><span class='line'>message.mediaObject = ext;
+</span><span class='line'>
+</span><span class='line'>SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+</span><span class='line'>req.bText = NO;
+</span><span class='line'>req.message = message;
+</span><span class='line'>req.scene = (sharedType == WXShareSceneTypeTimeline? WXSceneTimeline:WXSceneSession);
+</span><span class='line'>
+</span><span class='line'>BOOL success = [WXApi sendReq:req];
+</span><span class='line'>return success;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.音乐类型</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//音乐类型分享
+</span><span class='line'>- (BOOL)sharedMusicToWeChat:(NSString *)title
+</span><span class='line'>description:(NSString *)description
+</span><span class='line'>musicUrl:(NSString *)musicUrl
+</span><span class='line'>musicDataUrl:(NSString *)musicDataUrl
+</span><span class='line'>image:(UIImage *)image
+</span><span class='line'>shareType:(WXShareSceneType)sharedType
+</span><span class='line'>{
+</span><span class='line'>UIImage *compressedImage = [image imageWithFileSize:32*1024 scaledToSize:CGSizeMake(300, 300)];
+</span><span class='line'>
+</span><span class='line'>WXMediaMessage *message = [WXMediaMessage message];
+</span><span class='line'>//标题
+</span><span class='line'>message.title = title;
+</span><span class='line'>//描述
+</span><span class='line'>message.description = description;
+</span><span class='line'>//缩略图
+</span><span class='line'>[message setThumbImage:compressedImage];
+</span><span class='line'>
+</span><span class='line'>WXMusicObject * musicObject = [WXMusicObject object];
+</span><span class='line'>//音乐的url
+</span><span class='line'>musicObject.musicUrl = musicUrl;
+</span><span class='line'>//低分辨率音频
+</span><span class='line'>musicObject.musicLowBandUrl = musicUrl;
+</span><span class='line'>//音乐数据的url
+</span><span class='line'>musicObject.musicDataUrl = musicDataUrl;
+</span><span class='line'>musicObject.musicLowBandDataUrl = musicDataUrl;
+</span><span class='line'>message.mediaObject = musicObject;
+</span><span class='line'>
+</span><span class='line'>SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+</span><span class='line'>
+</span><span class='line'>req.bText= NO;
+</span><span class='line'>
+</span><span class='line'>req.message = message;
+</span><span class='line'>
+</span><span class='line'>req.scene = (sharedType == WXShareSceneTypeTimeline? WXSceneTimeline:WXSceneSession);
+</span><span class='line'>BOOL success = [WXApi sendReq:req];
+</span><span class='line'>return success;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.视频</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//视频类型分享
+</span><span class='line'>- (BOOL)sharedVideoToWeChat:(NSString *)title
+</span><span class='line'>description:(NSString *)description
+</span><span class='line'>videoUrl:(NSString *)videoUrl
+</span><span class='line'>image:(UIImage *)image
+</span><span class='line'>shareType:(WXShareSceneType)sharedType
+</span><span class='line'>{
+</span><span class='line'>UIImage *compressedImage = [image imageWithFileSize:32*1024 scaledToSize:CGSizeMake(300, 300)];
+</span><span class='line'>
+</span><span class='line'>WXMediaMessage *message = [WXMediaMessage message];
+</span><span class='line'>//标题
+</span><span class='line'>message.title = title;
+</span><span class='line'>//描述
+</span><span class='line'>message.description = description;
+</span><span class='line'>//缩略图
+</span><span class='line'>[message setThumbImage:compressedImage];
+</span><span class='line'>
+</span><span class='line'>WXVideoObject * videoObject = [WXVideoObject object];
+</span><span class='line'>//视频的url
+</span><span class='line'>videoObject.videoUrl = videoUrl;
+</span><span class='line'>videoObject.videoLowBandUrl = videoUrl;
+</span><span class='line'>message.mediaObject = videoObject;
+</span><span class='line'>
+</span><span class='line'>SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+</span><span class='line'>
+</span><span class='line'>req.bText= NO;
+</span><span class='line'>
+</span><span class='line'>req.message = message;
+</span><span class='line'>
+</span><span class='line'>req.scene = (sharedType == WXShareSceneTypeTimeline? WXSceneTimeline:WXSceneSession);
+</span><span class='line'>BOOL success = [WXApi sendReq:req];
+</span><span class='line'>return success;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>1.2.2分享成功的回调</h6>
+
+<p>分享成功的回调也是在-(void) onResp:(BaseResp*)resp方法中处理</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void) onResp:(BaseResp*)resp{
+</span><span class='line'>if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+</span><span class='line'>//第三方程序向微信终端发送SendMessageToWXReq后，微信发送回来的处理结果，该结果用SendMessageToWXResp表示。
+</span><span class='line'>if (self.wxDelegate
+</span><span class='line'>&& [self.wxDelegate respondsToSelector:@selector(WXApiUtilsDidRecvMessageResponse:)]) {
+</span><span class='line'>SendMessageToWXResp *messageResp = (SendMessageToWXResp *)resp;
+</span><span class='line'>[self.wxDelegate WXApiUtilsDidRecvMessageResponse:messageResp];
+</span><span class='line'>}
+</span><span class='line'>} 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上就是微信登录和分享的整个流程,具体代码<a href="https://github.com/MrGCY/ThirdPartyShareLoginAndPay">demo</a>,也请大家继续关注,后续会分享QQ的登录和分享</p>
+
+		
+		
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

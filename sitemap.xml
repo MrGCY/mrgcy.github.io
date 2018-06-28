@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>http://yoursite.com/blog/2018/06/28/ios-shi-tu-yuan-jiao-(ren-yi-jiao-ren-yi-da-xiao-)/</loc>
+<loc>http://mrgcy.github.io/blog/2018/06/28/ios-di-san-fang-deng-lu-he-fen-xiang-zong-jie-wei-xin-pian/</loc>
+<lastmod>2018-06-28T14:44:47+08:00</lastmod>
+</url>
+<url>
+<loc>http://mrgcy.github.io/blog/2018/06/28/ios-shi-tu-yuan-jiao-(ren-yi-jiao-ren-yi-da-xiao-)/</loc>
 <lastmod>2018-06-28T10:31:11+08:00</lastmod>
 </url>
 <url>
-<loc>http://yoursite.com/</loc>
+<loc>http://mrgcy.github.io/</loc>
 </url>
 <url>
-<loc>http://yoursite.com/blog/archives/</loc>
+<loc>http://mrgcy.github.io/blog/archives/</loc>
 </url>
 <url>
-<loc>http://yoursite.com/blog/categories/</loc>
+<loc>http://mrgcy.github.io/blog/categories/</loc>
 </url>
 </urlset>
